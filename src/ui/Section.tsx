@@ -50,6 +50,10 @@ export interface SectionProps {
 const SANS = "'Barlow Condensed', 'Arial Narrow', Arial, sans-serif";
 const MONO = "'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace";
 const MARGIN = { left: 58, right: 16, top: 16, bottom: 92 };
+/** Below this plot width the title block goes under the scale bar instead of beside it. */
+const NARROW = 520;
+const bottomMargin = (width: number): number =>
+  width - MARGIN.left - MARGIN.right < NARROW ? MARGIN.bottom + 52 : MARGIN.bottom;
 
 interface View {
   scale: number;
@@ -122,7 +126,7 @@ export function Section(props: SectionProps) {
       }
     }
     const w = size.w - MARGIN.left - MARGIN.right;
-    const h = size.h - MARGIN.top - MARGIN.bottom;
+    const h = size.h - MARGIN.top - bottomMargin(size.w);
     const worldW = Math.max(xb - xa, 1e-6);
     const worldH = Math.max(top - low, 1e-6);
     const scale = Math.min(w / worldW, h / worldH);
@@ -330,6 +334,8 @@ export function Section(props: SectionProps) {
   const hatch = `hatch-${uid}`;
   const frameBottom = view.plot.y + view.plot.h;
   const stripY = frameBottom + 44;
+  const narrow = view.plot.w < NARROW;
+  const blockW = Math.min(250, view.plot.w);
   const barUnit = step / 2;
   const barPx = barUnit * view.scale;
   const trialCircle = settings.trial;
@@ -782,15 +788,22 @@ export function Section(props: SectionProps) {
         </g>
         <g
           className="title-block"
-          transform={`translate(${view.plot.x + view.plot.w - 250} ${stripY - 6})`}
+          transform={`translate(${view.plot.x + view.plot.w - blockW} ${narrow ? stripY + 44 : stripY - 6})`}
         >
-          <rect width="250" height="44" fill="#ffffff" stroke={INK} strokeWidth="1" />
-          <line x1="0" y1="15" x2="250" y2="15" stroke={INK} strokeWidth="0.8" />
-          <line x1="168" y1="0" x2="168" y2="15" stroke={INK} strokeWidth="0.8" />
+          <rect width={blockW} height="44" fill="#ffffff" stroke={INK} strokeWidth="1" />
+          <line x1="0" y1="15" x2={blockW} y2="15" stroke={INK} strokeWidth="0.8" />
+          <line x1={blockW - 82} y1="0" x2={blockW - 82} y2="15" stroke={INK} strokeWidth="0.8" />
           <text x="6" y="11" fontFamily={SANS} fontSize="10" letterSpacing="1.2" fill={INK}>
             GEOTECHNICAL SECTION A–A′
           </text>
-          <text x="174" y="11" fontFamily={SANS} fontSize="10" letterSpacing="1.2" fill={INK}>
+          <text
+            x={blockW - 76}
+            y="11"
+            fontFamily={SANS}
+            fontSize="10"
+            letterSpacing="1.2"
+            fill={INK}
+          >
             SLOPEFORGE
           </text>
           <text x="6" y="30" fontFamily={SANS} fontSize="13" fontWeight="600" fill={INK}>

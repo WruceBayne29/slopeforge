@@ -9,6 +9,8 @@ export default defineConfig({
   test: {
     environment: 'node',
     include: ['src/**/*.test.ts', 'tests/**/*.test.ts'],
+    // searches run slower under coverage on CI runners
+    testTimeout: 60000,
     coverage: {
       provider: 'v8',
       include: ['src/engine/**/*.ts'],

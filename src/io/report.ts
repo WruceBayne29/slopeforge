@@ -138,7 +138,7 @@ export function buildReport({
       y += 4.1;
     }
   };
-  const table = (t: WorkedTable, fontSize = 7): void => {
+  const table = (t: WorkedTable, fontSize = 7, textColumns = 1): void => {
     need(16);
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(7.6);
@@ -168,7 +168,20 @@ export function buildReport({
         lineWidth: { top: 0.35, bottom: 0.25 },
       },
       footStyles: { fontStyle: 'bold', lineColor: INK, lineWidth: { top: 0.25, bottom: 0.35 } },
-      columnStyles: { 0: { halign: 'left', textColor: MUTED } },
+      columnStyles: Object.fromEntries(
+        Array.from({ length: textColumns }, (_, i) => [
+          i,
+          {
+            halign: 'left' as const,
+            textColor: i === 0 ? MUTED : INK,
+            font: i === 0 ? 'courier' : 'helvetica',
+          },
+        ]),
+      ),
+      didParseCell: (data) => {
+        if (data.section === 'head' && data.column.index < textColumns)
+          data.cell.styles.halign = 'left';
+      },
       willDrawPage: (data) => {
         if (data.pageNumber > 1) paint();
       },
@@ -240,13 +253,13 @@ export function buildReport({
   cell(1, 0, 'Section', project.title, true);
   cell(2, 0, 'Date', date.toISOString().slice(0, 10));
   cell(3, 0, 'Sheet', "A-A'");
-  cell(0, 1, 'Method', 'Method of slices, circular surface');
+  cell(0, 1, 'Method', 'Slices, circular slip');
   cell(
     1,
     1,
     'Reported circle',
     kind === 'critical'
-      ? `Critical circle (search minimising ${settings.method === 'bishop' ? 'Bishop' : 'ordinary method'})`
+      ? `Critical (min. ${settings.method === 'bishop' ? 'Bishop' : 'ordinary'})`
       : 'Trial circle placed by hand',
   );
   cell(
@@ -340,6 +353,7 @@ export function buildReport({
       ]),
     },
     8,
+    2,
   );
   const water =
     model.water.kind === 'none'

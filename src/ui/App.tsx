@@ -67,7 +67,8 @@ export function App() {
   const { model, settings } = project;
   const [selection, setSelection] = useState<Selection | null>(null);
   const [selectedSlice, setSelectedSlice] = useState<number | null>(null);
-  const [showMap, setShowMap] = useState(true);
+  // On a phone the centre grid crowds the section, so it starts hidden there.
+  const [showMap, setShowMap] = useState(() => window.innerWidth >= 700);
   const [showSlices, setShowSlices] = useState(true);
   const [tab, setTab] = useState<DetailTab>('slices');
   const [exampleId, setExampleId] = useState(EXAMPLES[0].id);
