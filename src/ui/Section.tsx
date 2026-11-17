@@ -819,7 +819,8 @@ export function Section(props: SectionProps) {
               <title>Double-click to add a point</title>
             </polyline>
           ))}
-          {lines.flatMap(({ ref, points }) =>
+          {/* ground points are drawn last so they stay on top where lines meet */}
+          {[...lines].reverse().flatMap(({ ref, points }) =>
             points.map((p, index) => {
               const picked =
                 selection !== null && sameLine(selection.line, ref) && selection.index === index;

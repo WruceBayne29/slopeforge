@@ -10,9 +10,12 @@ import { cleanSettings, cloneProject } from '../model/project';
 import type { Project, Settings } from '../model/project';
 import { Compare, Sensitivity, SliceForces, SliceTable, Working } from './Details';
 import type { DetailTab } from './Details';
+import { buildReport, reportFileName } from '../io/report';
 import { TextField } from './fields';
+import { About, Tour } from './Guide';
 import { LogPanel } from './LogPanel';
 import { Results } from './Results';
+import { rasterise } from './rasterise';
 import { Section } from './Section';
 import type { Selection } from './Section';
 import { notify, Toasts } from './toast';
@@ -25,6 +28,8 @@ const TABS: { id: DetailTab; label: string }[] = [
   { id: 'compare', label: 'Fellenius vs Bishop' },
   { id: 'sensitivity', label: 'Sensitivity' },
 ];
+
+const TOUR_KEY = 'slopeforge-tour-seen';
 
 function Logo() {
   return (
@@ -66,6 +71,22 @@ export function App() {
   const [showSlices, setShowSlices] = useState(true);
   const [tab, setTab] = useState<DetailTab>('slices');
   const [exampleId, setExampleId] = useState(EXAMPLES[0].id);
+  const [about, setAbout] = useState(false);
+  const [tour, setTour] = useState(() => {
+    try {
+      return window.localStorage.getItem(TOUR_KEY) === null && !window.location.hash;
+    } catch {
+      return false;
+    }
+  });
+  const endTour = useCallback(() => {
+    setTour(false);
+    try {
+      window.localStorage.setItem(TOUR_KEY, '1');
+    } catch {
+      // private browsing: the tour will simply show again next time
+    }
+  }, []);
   const fileInput = useRef<HTMLInputElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
 
@@ -170,10 +191,41 @@ export function App() {
     }
   };
 
+  const pdf = async (): Promise<void> => {
+    if (!shown) {
+      notify('There is no slip circle to report yet.', 'error');
+      return;
+    }
+    try {
+      const figure = svgRef.current ? await rasterise(svgRef.current, 2.5).catch(() => null) : null;
+      const doc = buildReport({
+        project,
+        result: shown,
+        kind: trial?.ok ? 'trial' : 'critical',
+        search,
+        figure,
+      });
+      doc.save(reportFileName(project.title));
+      notify('PDF report downloaded.');
+    } catch (e) {
+      notify(
+        e instanceof Error
+          ? `The PDF could not be made: ${e.message}`
+          : 'The PDF could not be made.',
+        'error',
+      );
+    }
+  };
+
   useEffect(() => {
     const onKey = (e: KeyboardEvent): void => {
+      if (about || tour) return;
       const target = e.target as HTMLElement | null;
-      const typing = target !== null && /^(INPUT|SELECT|TEXTAREA)$/.test(target.tagName);
+      const typing =
+        target !== null &&
+        (/^(SELECT|TEXTAREA)$/.test(target.tagName) ||
+          (target.tagName === 'INPUT' &&
+            !/^(checkbox|radio|file)$/.test((target as HTMLInputElement).type)));
       const mod = e.metaKey || e.ctrlKey;
       if (mod && e.key.toLowerCase() === 'z') {
         if (typing) return;
@@ -196,7 +248,8 @@ export function App() {
       if (e.key === 'Escape') {
         setSelection(null);
         setSelectedSlice(null);
-      } else if (e.key === 'm' || e.key === 'M') setShowMap((v) => !v);
+      } else if (e.key === '?') setAbout(true);
+      else if (e.key === 'm' || e.key === 'M') setShowMap((v) => !v);
       else if (e.key === 'l' || e.key === 'L') setShowSlices((v) => !v);
       else if (e.key === 't' || e.key === 'T') toggleTrial();
       else if (selection && (e.key === 'Delete' || e.key === 'Backspace')) {
@@ -289,6 +342,17 @@ export function App() {
           </button>
           <button type="button" onClick={() => void share()}>
             Share link
+          </button>
+          <button type="button" className="solid" onClick={() => void pdf()}>
+            PDF report
+          </button>
+          <button
+            type="button"
+            onClick={() => setAbout(true)}
+            aria-label="About SlopeForge"
+            title="About and keys (?)"
+          >
+            ?
           </button>
           <input
             ref={fileInput}
@@ -444,6 +508,16 @@ export function App() {
           Source and validation
         </a>
       </footer>
+      {about && (
+        <About
+          onClose={() => setAbout(false)}
+          onTour={() => {
+            setAbout(false);
+            setTour(true);
+          }}
+        />
+      )}
+      {tour && <Tour onClose={endTour} />}
       <Toasts />
     </div>
   );

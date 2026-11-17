@@ -1043,6 +1043,96 @@ figure {
   background: var(--slip);
 }
 
+/* ---------- dialogs and tour ---------- */
+.veil {
+  position: fixed;
+  inset: 0;
+  background: rgba(22, 24, 26, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 40;
+  padding: 16px;
+}
+
+.note {
+  background: var(--paper);
+  border: 1.5px solid var(--ink);
+  padding: 18px 20px 16px;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow: auto;
+}
+
+.note h2 {
+  font-family: var(--cond);
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.note h3 {
+  font-family: var(--cond);
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin: 12px 0 2px;
+}
+
+.note p {
+  font-size: 13.5px;
+  color: var(--soft);
+}
+
+.note .row {
+  justify-content: flex-end;
+  margin-top: 14px;
+}
+
+kbd {
+  font-family: var(--mono);
+  font-size: 11px;
+  border: 1px solid var(--ink);
+  padding: 0 4px;
+  background: var(--wash);
+}
+
+.keys {
+  line-height: 1.9;
+}
+
+.tour {
+  position: fixed;
+  inset: 0;
+  z-index: 45;
+}
+
+.tour-frame {
+  position: fixed;
+  border: 2px solid var(--slip);
+  box-shadow: 0 0 0 9999px rgba(22, 24, 26, 0.42);
+  pointer-events: none;
+}
+
+.tour-card {
+  position: fixed;
+}
+
+.tour-card small {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.plain-button {
+  border-color: transparent;
+  color: var(--muted);
+  margin-right: auto;
+}
+
 /* ---------- narrower screens ---------- */
 @media (max-width: 1320px) {
   .desk {
@@ -1113,6 +1203,8 @@ figure {
   .sheet-bar label,
   .caption,
   .toasts,
+  .veil,
+  .tour,
   .handles,
   .colophon {
     display: none !important;
