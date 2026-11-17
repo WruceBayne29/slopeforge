@@ -8,7 +8,7 @@ import { defaultProject, EXAMPLES, findExample } from '../model/examples';
 import { historyReducer, startHistory } from '../model/history';
 import { cleanSettings, cloneProject } from '../model/project';
 import type { Project, Settings } from '../model/project';
-import { SliceTable, Working } from './Details';
+import { Compare, Sensitivity, SliceForces, SliceTable, Working } from './Details';
 import type { DetailTab } from './Details';
 import { TextField } from './fields';
 import { LogPanel } from './LogPanel';
@@ -21,6 +21,9 @@ import { useAnalysis } from './useAnalysis';
 const TABS: { id: DetailTab; label: string }[] = [
   { id: 'slices', label: 'Slice table' },
   { id: 'working', label: 'Working' },
+  { id: 'forces', label: 'Slice forces' },
+  { id: 'compare', label: 'Fellenius vs Bishop' },
+  { id: 'sensitivity', label: 'Sensitivity' },
 ];
 
 function Logo() {
@@ -74,7 +77,10 @@ export function App() {
     }
   }, [model]);
 
-  const analysis = useAnalysis(model, settings, { sensitivity: false, other: false });
+  const analysis = useAnalysis(model, settings, {
+    sensitivity: tab === 'sensitivity',
+    other: tab === 'compare',
+  });
   const response = analysis.response;
   const search = response?.search ?? null;
   const critical = prepared ? (search?.critical ?? null) : null;
@@ -383,7 +389,13 @@ export function App() {
               ))}
             </div>
             <div className="tab-body">
-              {!shown ? (
+              {tab === 'sensitivity' && critical ? (
+                <Sensitivity
+                  curves={response?.sensitivity ?? null}
+                  busy={analysis.busy}
+                  method={settings.method === 'bishop' ? 'Bishop' : 'ordinary method'}
+                />
+              ) : !shown ? (
                 <p className="hint">Nothing to show until a slip circle has been analysed.</p>
               ) : tab === 'slices' ? (
                 <SliceTable
@@ -392,8 +404,23 @@ export function App() {
                   picked={selectedSlice}
                   onPick={setSelectedSlice}
                 />
-              ) : (
+              ) : tab === 'working' ? (
                 <Working model={model} result={shown} />
+              ) : tab === 'forces' ? (
+                <SliceForces
+                  model={model}
+                  result={shown}
+                  picked={selectedSlice}
+                  onPick={setSelectedSlice}
+                />
+              ) : (
+                <Compare
+                  result={shown}
+                  settings={settings}
+                  search={search}
+                  other={response?.other ?? null}
+                  busy={analysis.busy}
+                />
               )}
             </div>
           </div>
