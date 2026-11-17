@@ -4,3 +4,6 @@ export * from './strata';
 export * from './methods';
 export * from './analyse';
 export * from './search';
+export * from './contours';
+export * from './sensitivity';
+export * from './steps';

@@ -65,7 +65,7 @@ export function autoSearchBox(pm: PreparedModel): SearchBox {
     x1: pm.xmin + 0.05 * length,
     x2: pm.xmax - 0.05 * length,
     y1: pm.high + 0.1 * height,
-    y2: pm.high + Math.max(3 * height, 0.75 * length),
+    y2: pm.high + Math.max(2.5 * height, 0.5 * length),
   };
 }
 
@@ -286,4 +286,27 @@ export function searchCritical(
   result.critical = detail.ok ? detail : null;
   result.evaluated = searcher.evaluated + 1;
   return result;
+}
+
+/**
+ * Re-optimises a circle locally, starting from `start`. Used when a parameter has changed a
+ * little and a full grid search would be wasteful.
+ */
+export function refineCircle(
+  source: SlopeModel | PreparedModel,
+  start: Circle,
+  options: SearchOptions = {},
+): CircleSuccess | null {
+  const pm = 'breaks' in source ? source : prepare(source);
+  const method = options.method ?? 'bishop';
+  const analysis: AnalysisOptions = { slices: options.slices, minDepth: options.minDepth };
+  const searcher = new Searcher(pm, method, analysis, Math.max(3, options.nr ?? DEFAULT_RADII));
+  const own = searcher.value(start.xc, start.yc, start.r);
+  let trial = searcher.bestRadius(start.xc, start.yc);
+  if (Number.isFinite(own) && (!trial || own < trial.fos)) trial = { r: start.r, fos: own };
+  if (!trial || !Number.isFinite(trial.fos)) return null;
+  const step = 0.04 * Math.max(pm.high - pm.low, 0.02 * (pm.xmax - pm.xmin));
+  const done = searcher.polish({ xc: start.xc, yc: start.yc, trial }, step, step);
+  const detail = analyseCircle(pm, { xc: done.xc, yc: done.yc, r: done.trial.r }, analysis);
+  return detail.ok ? detail : null;
 }

@@ -13,7 +13,7 @@ describe('autoSearchBox', () => {
     expect(box.x1).toBeGreaterThan(pm.xmin);
     expect(box.x2).toBeLessThan(pm.xmax);
     expect(box.y1).toBeCloseTo(11, 9);
-    expect(box.y2).toBeGreaterThanOrEqual(10 + 30);
+    expect(box.y2).toBeGreaterThanOrEqual(10 + 25);
   });
 });
 

@@ -1,6 +1,6 @@
 # Progress
 
-**Status:** IN PROGRESS — engine and validation done; UI is a placeholder.
+**Status:** IN PROGRESS — MVP deployed at https://wrucebayne29.github.io/slopeforge/
 
 ## Done
 - Scaffold: toolchain copied from RCForge, public repo, Pages enabled (workflow build), PLAN /
@@ -13,19 +13,30 @@
   check, infinite slope, submerged ≡ buoyant, ACADS 1(a)/1(c)/1(d)) → `VALIDATION.md`
   (`npm run validation`). ACADS Bishop: 0.985 / 1.403 / 1.013.
 
+- Milestone 4 (MVP): real UI live — borehole-log soil table, cross-section drawing (hatches, axes,
+  scale bar, title block, FoS contour map, critical circle, slices), results panel, slice table,
+  worked steps, examples (9), undo/redo, JSON open/save, share links, trial circle, keyboard
+  shortcuts. Dragging points, double-click insert/delete already work (milestone 5 mostly done).
+- `src/model` (project, edit ops, history, examples, benchmarks, run) and `src/io` (project file,
+  share) with tests. Analysis runs in a web worker (`src/ui/analysis.worker.ts`).
+- `scripts/serve.mjs` + `scripts/shot.mjs`: serve `dist/` and screenshot it with Playwright
+  (`npm run build && node scripts/shot.mjs out.png 1500 950 acads-1c`).
+
 ## In progress
-- Milestone 4: MVP UI and first real deploy (the placeholder page is live-able but plain).
+- Milestone 6: remaining result views.
 
 ## Exact next step
-- `src/model/project.ts` (project = model + settings, defaults), `src/model/examples.ts`, then the
-  UI: `src/ui/App.tsx`, `Section.tsx` (SVG cross-section with hatches, axes, scale bar, critical
-  circle), results panel. Deploy, verify with curl.
+- `src/ui/Details.tsx`: add tabs "Slice forces" (free-body of the picked slice), "Methods"
+  (Fellenius vs Bishop: per-slice normal stress chart, both searches) and "Sensitivity" (charts
+  from `response.sensitivity`); wire `useAnalysis` extras in `App.tsx` (sensitivity/other flags).
+- Then `src/io/report.ts` (PDF), `src/ui/Guide.tsx` (About + tour), `scripts/e2e.mjs`,
+  `scripts/screenshots.mjs`, docs.
 
 ## Milestone checklist
 - [x] 1. Engine
 - [x] 2. Critical circle search
 - [x] 3. Validation suite → VALIDATION.md
-- [ ] 4. MVP deploy
+- [x] 4. MVP deploy
 - [ ] 5. Editor
 - [ ] 6. Results view
 - [ ] 7. Worked steps
