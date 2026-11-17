@@ -28,3 +28,14 @@ Calls made autonomously while building, newest last.
    slopes facing either way work without the user declaring which side is the toe.
 7. **The seismic coefficient acts on soil weight only**, horizontally towards the toe, at the
    centroid height of each slice. Surcharges are not multiplied by kh.
+8. **When a circle dips below the ground in more than one place, the stretch whose ends differ
+   most in elevation is the slip surface.** A circle through a steep face near the toe also passes
+   under the level ground in front; taking the widest stretch (the first implementation) picked
+   the wrong one and missed Taylor's toe circles for steep slopes by 4 %.
+9. **The ordinary method uses the textbook N′ = W cos α − u l**, not the "effective weight"
+   variant, so hand calculations match. Its known weakness under high pore pressure is reported
+   as a warning and explained in THEORY.md; the submerged-slope validation uses Bishop.
+10. **Search = grid of centres × radius scan × golden-section on radius, then a compass search**
+    from the three best local minima of the grid, re-optimising the radius at every step.
+    The radius range at a centre runs from "just touching the ground" to "touching the firm base
+    or the far end of the section".

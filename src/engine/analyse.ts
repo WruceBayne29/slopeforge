@@ -33,10 +33,23 @@ function slipInterval(pm: PreparedModel, c: Circle): [number, number] | CircleFa
   const xs = [lo, ...uniqueSorted(roots, tol), hi];
   const depth = (x: number): number => yAt(pm.ground, x) - arcY(c, x);
 
+  // A circle can dip below the ground in more than one place (for instance under the level
+  // ground in front of a steep face, and again behind the face). The stretch that matters is
+  // the one whose ends differ most in elevation; the wider one breaks a tie.
   let best: [number, number] | null = null;
+  let bestRise = -1;
   let start: number | null = null;
   const close = (end: number): void => {
-    if (start !== null && (!best || end - start > best[1] - best[0])) best = [start, end];
+    if (start !== null) {
+      const rise = Math.abs(yAt(pm.ground, end) - yAt(pm.ground, start));
+      const better =
+        rise > bestRise + dTol ||
+        (Math.abs(rise - bestRise) <= dTol && best !== null && end - start > best[1] - best[0]);
+      if (!best || better) {
+        best = [start, end];
+        bestRise = rise;
+      }
+    }
     start = null;
   };
   for (let i = 0; i + 1 < xs.length; i++) {
@@ -142,7 +155,8 @@ export function analyseCircle(
   for (let i = 0; i + 1 < fixed.length; i++) {
     const span = fixed[i + 1] - fixed[i];
     const parts = Math.max(1, Math.ceil(span / target - 1e-9));
-    for (let k = 1; k <= parts; k++) edges.push(fixed[i] + (span * k) / parts);
+    for (let k = 1; k < parts; k++) edges.push(fixed[i] + (span * k) / parts);
+    edges.push(fixed[i + 1]);
   }
 
   const nb = pm.boundaries.length;
