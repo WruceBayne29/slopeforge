@@ -1,0 +1,32 @@
+name: Bug report
+description: Something in the app does not work
+title: 'Bug: '
+labels: ['bug']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        If a calculated value is wrong, please use the **Wrong result** template instead.
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What you did, what you expected and what you saw.
+    validations:
+      required: true
+  - type: input
+    id: link
+    attributes:
+      label: Share link
+      description: Use the Share button and paste the link, if the bug depends on a particular design.
+  - type: input
+    id: browser
+    attributes:
+      label: Browser and device
+      placeholder: Chrome 140 on Windows 11, Safari on an iPhone, ...
+    validations:
+      required: true
+  - type: textarea
+    id: extra
+    attributes:
+      label: Screenshots or console errors

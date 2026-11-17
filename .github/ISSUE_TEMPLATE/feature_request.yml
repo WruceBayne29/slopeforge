@@ -1,0 +1,36 @@
+name: Feature request
+description: Suggest something SlopeForge should do
+title: 'Feature: '
+labels: ['enhancement']
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What are you trying to do?
+      description: The design task or course problem you wanted to solve.
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: What would help?
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Beams
+        - Columns
+        - Slabs
+        - Footings
+        - A new element (staircase, retaining wall, ...)
+        - Drawings and bar schedule
+        - Export (PDF, JSON, links)
+        - Interface
+        - Documentation
+  - type: input
+    id: clause
+    attributes:
+      label: Relevant clause or reference, if any

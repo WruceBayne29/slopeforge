@@ -1,0 +1,53 @@
+{
+  "name": "slopeforge",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Browser-based slope stability analyser: method of slices (Fellenius, Bishop) with a critical slip circle search and worked steps",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "coverage": "vitest run --coverage",
+    "typecheck": "tsc -b",
+    "check": "npm run lint && npm run format:check && npm run test && npm run build",
+    "e2e": "node scripts/e2e.mjs",
+    "screenshots": "node scripts/screenshots.mjs",
+    "validation": "WRITE_VALIDATION=1 vitest run tests/validation"
+  },
+  "dependencies": {
+    "@fontsource/barlow": "^5.2.0",
+    "@fontsource/barlow-condensed": "^5.2.0",
+    "@fontsource/jetbrains-mono": "^5.2.0",
+    "jspdf": "^4.2.1",
+    "jspdf-autotable": "^5.0.9",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^24.19.2",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.2",
+    "@vitest/coverage-v8": "^4.1.12",
+    "eslint": "^10.15.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "gifenc": "^1.0.3",
+    "globals": "^17.14.0",
+    "playwright": "^1.65.1",
+    "pngjs": "^7.0.0",
+    "prettier": "^3.10.1",
+    "typescript": "~6.0",
+    "typescript-eslint": "^8.72.2",
+    "vite": "^8.3.6",
+    "vitest": "^4.1.12"
+  }
+}
