@@ -1,5 +1,5 @@
 name: Wrong result
-description: A design value or check does not match IS 456, SP 16 or a hand calculation
+description: A factor of safety, slice value or critical circle does not match a benchmark or a hand calculation
 title: 'Wrong result: '
 labels: ['wrong result']
 body:
@@ -8,28 +8,27 @@ body:
       value: |
         This is the most useful kind of report. Please give enough for the number to be reproduced.
   - type: textarea
-    id: design
+    id: section
     attributes:
-      label: Design
-      description: Paste the link from the app's Share button, or the saved JSON.
+      label: Section
+      description: Paste the link from the app's Share link button, or the saved JSON.
     validations:
       required: true
   - type: dropdown
-    id: element
+    id: method
     attributes:
-      label: Element
+      label: Method
       options:
-        - Beam
-        - Column
-        - Slab
-        - Footing
+        - Bishop simplified
+        - Ordinary (Fellenius)
+        - Both
     validations:
       required: true
   - type: input
-    id: step
+    id: value
     attributes:
-      label: Which step or value?
-      placeholder: Tension reinforcement, shear strength τc, Table 26 coefficient, ...
+      label: Which value?
+      placeholder: Critical F, weight of slice 7, Bishop iteration, sensitivity curve, ...
     validations:
       required: true
   - type: input
@@ -48,6 +47,6 @@ body:
     id: source
     attributes:
       label: Source of the expected value
-      description: Clause or table of IS 456 / SP 16, a textbook example (author, edition, page), or your hand calculation.
+      description: A published benchmark (author, year, problem), a textbook example (author, edition, page), another program, or your hand calculation.
     validations:
       required: true

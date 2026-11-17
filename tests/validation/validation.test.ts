@@ -71,7 +71,7 @@ describe('validation against published benchmarks and closed forms', () => {
       '## What is not independently verified',
       '',
       '- **Numbers recalled from memory.** Taylor’s stability numbers (V1), the ACADS referee values and',
-      '  the Slide comparison values for problems 1(a) and 1(d) (V6) were typed in from memory. They are',
+      '  the Bishop comparison values for problems 1(a) and 1(d) (V6) were typed in from memory. They are',
       '  standard figures and the engine reproduces them, but they were not re-read from the original',
       '  publications while writing the tests. The geometry and soil properties of ACADS 1(c) and its',
       '  Bishop value of 1.405 were checked against a published verification document.',

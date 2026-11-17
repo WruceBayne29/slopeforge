@@ -4,17 +4,17 @@
 
 ## Kind of change
 
-- [ ] Calculation (`src/is456`)
-- [ ] Interface or drawings
+- [ ] Analysis engine (`src/engine`)
+- [ ] Interface or drawing
 - [ ] Export
 - [ ] Documentation
 
 ## Checklist
 
-- [ ] `npm run check` passes (lint, tests, build)
-- [ ] Calculation changes come with a test whose expected value is derived independently
-      (a published value, or a hand calculation shown in the test)
-- [ ] New code tables are generated from a formula where one exists, or guarded by a consistency
-      test and listed in `VALIDATION.md`
-- [ ] Each new step carries its clause reference
+- [ ] `npm run check` passes (lint, format, tests, build)
+- [ ] Engine changes come with a test whose expected value is derived independently
+      (a published benchmark, a closed form, or a hand calculation written out in the test)
+- [ ] New benchmark values say where they come from in `tests/validation/cases.ts`, and
+      `npm run validation` has been run
+- [ ] `src/engine` coverage stays above 90 % (`npm run coverage`)
 - [ ] Screenshots attached for interface changes

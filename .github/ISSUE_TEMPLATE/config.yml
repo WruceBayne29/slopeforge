@@ -2,4 +2,4 @@ blank_issues_enabled: true
 contact_links:
   - name: Theory notes
     url: https://github.com/WruceBayne29/slopeforge/blob/main/docs/THEORY.md
-    about: The formulas, clauses and assumptions behind every calculation.
+    about: The method of slices, the search and the assumptions behind every number.

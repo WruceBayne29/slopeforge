@@ -39,3 +39,15 @@ Calls made autonomously while building, newest last.
     from the three best local minima of the grid, re-optimising the radius at every step.
     The radius range at a centre runs from "just touching the ground" to "touching the firm base
     or the far end of the section".
+11. **The search runs in a web worker** (`src/ui/analysis.worker.ts`) and only the newest request
+    is kept while one is running, so dragging a point never queues work. A hand-placed trial
+    circle is analysed on the main thread because one circle takes under a millisecond.
+12. **Sensitivity curves re-optimise the circle locally** (`refineCircle`) from the current
+    critical circle at each point instead of a full grid search: nine points per curve stay fast
+    enough to compute on demand, and the curve follows the critical surface as it moves.
+13. **Nine examples**, including the three ACADS benchmarks, rather than the six asked for, so the
+    validated problems can be opened in the app.
+14. **The forces-on-a-slice drawing is a schematic**: true base and ground angles, a fixed width
+    and force arrows to scale with one another, because real slices are often ten times taller
+    than wide.
+15. **On phones the centre grid starts hidden** and the title block moves under the scale bar.

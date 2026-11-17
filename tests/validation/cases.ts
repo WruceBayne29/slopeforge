@@ -426,10 +426,10 @@ export const VALIDATION_CASES: ValidationCase[] = [
     id: 'V6',
     title: 'ACADS benchmark slopes 1(a), 1(c) and 1(d)',
     source:
-      'Donald & Giam (1989), ACADS slope stability review, problems 1(a), 1(c), 1(d); comparison values from the Rocscience Slide verification manual',
+      'Donald & Giam (1989), ACADS slope stability review, problems 1(a), 1(c), 1(d); Bishop comparison values as reproduced in software verification manuals',
     basis: 'published',
     provenance:
-      'Critical circle by Bishop’s simplified method from a full search (default grid, 40 slices). Two comparisons each. (1) The ACADS referee values 1.00, 1.39 and 1.00, allowed ±0.03: they are rounded and the methods submitted to the review scatter by about that much. (2) The Bishop results of an independent program (Slide: 0.987, 1.405, 1.015), allowed ±0.005, the difference to expect between two search implementations. Honest note on sources: the three-layer geometry, the soil properties and the Bishop value 1.405 for 1(c) were checked against a published verification document that reproduces the ACADS problem (LUSAS, “Non-homogeneous slope”, shifted origin). The referee values, the 1(a) geometry and the Slide values for 1(a) and 1(d) were entered from memory and not re-checked against the original report.',
+      'Critical circle by Bishop’s simplified method from a full search (default grid, 40 slices). Two comparisons each. (1) The ACADS referee values 1.00, 1.39 and 1.00, allowed ±0.03: they are rounded and the methods submitted to the review scatter by about that much. (2) Bishop’s simplified method as reported for the same problems (0.987, 1.405, 1.015), allowed ±0.005, the difference to expect between two search implementations. Honest note on sources: the three-layer geometry, the soil properties and the Bishop value 1.405 for 1(c) were checked against a published verification document that reproduces the ACADS problem (LUSAS, “Non-homogeneous slope”, shifted origin). The referee values, the 1(a) geometry and the Bishop values for 1(a) and 1(d) (recalled as those of the Rocscience Slide verification manual) were entered from memory and not re-checked against the original report.',
     run: () => {
       const bishop = (model: SlopeModel): number => {
         const f = searchCritical(model, { slices: 40 }).critical?.bishop.fos;
@@ -441,11 +441,11 @@ export const VALIDATION_CASES: ValidationCase[] = [
       const d = bishop(ACADS_1D);
       return [
         check('1(a) homogeneous: F against the referee value', 1.0, a, 0.03),
-        check('1(a) homogeneous: F against Bishop in Slide', 0.987, a, 0.005),
+        check('1(a) homogeneous: F against the reported Bishop value', 0.987, a, 0.005),
         check('1(c) three layers: F against the referee value', 1.39, c, 0.03),
-        check('1(c) three layers: F against Bishop in Slide', 1.405, c, 0.005),
+        check('1(c) three layers: F against the reported Bishop value', 1.405, c, 0.005),
         check('1(d) three layers, kh = 0.15: F against the referee value', 1.0, d, 0.03),
-        check('1(d) three layers, kh = 0.15: F against Bishop in Slide', 1.015, d, 0.005),
+        check('1(d) three layers, kh = 0.15: F against the reported Bishop value', 1.015, d, 0.005),
       ];
     },
   },

@@ -20,6 +20,12 @@ log it in BLOCKERS.md, skip it, and continue with other work.
   `/Users/vishnusuhaasmagadala/Desktop/rcforge` (https://github.com/WruceBayne29/rcforge) and
   `/Users/vishnusuhaasmagadala/Desktop/frameforge` (https://github.com/WruceBayne29/frameforge).
 
+## Current state
+
+**SlopeForge is complete and deployed** (see PROGRESS.md). What is left is optional: the stretch
+items (Janbu's simplified method, Spencer's method, non-circular surfaces) and anything on the
+"not verified" list in PROGRESS.md.
+
 ## First thing to do
 
 Read, in this order: `PROGRESS.md` (state and the exact next step), `PLAN.md` (scope and

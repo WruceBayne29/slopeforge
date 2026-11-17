@@ -18,7 +18,7 @@ independently, slice by slice, in the test. *cross-check* — two formulations t
 ## What is not independently verified
 
 - **Numbers recalled from memory.** Taylor’s stability numbers (V1), the ACADS referee values and
-  the Slide comparison values for problems 1(a) and 1(d) (V6) were typed in from memory. They are
+  the Bishop comparison values for problems 1(a) and 1(d) (V6) were typed in from memory. They are
   standard figures and the engine reproduces them, but they were not re-read from the original
   publications while writing the tests. The geometry and soil properties of ACADS 1(c) and its
   Bishop value of 1.405 were checked against a published verification document.
@@ -53,9 +53,9 @@ independently, slice by slice, in the test. *cross-check* — two formulations t
 
 | Quantity | Expected | SlopeForge | Difference | Allowed |
 | --- | ---: | ---: | ---: | ---: |
-| N, β = 90° (toe circle) | 0.26100 | 0.26098 | 2.0e-5 | 0.00100 |
-| N, β = 75° (toe circle) | 0.21900 | 0.21905 | 4.6e-5 | 0.00100 |
-| N, β = 60° (toe circle) | 0.19100 | 0.19061 | 3.9e-4 | 0.00100 |
+| N, β = 90° (toe circle) | 0.26100 | 0.26098 | 2.2e-5 | 0.00100 |
+| N, β = 75° (toe circle) | 0.21900 | 0.21910 | 9.7e-5 | 0.00100 |
+| N, β = 60° (toe circle) | 0.19100 | 0.19060 | 4.0e-4 | 0.00100 |
 | N, β = 30°, firm base at 8 H (deep circle) | 0.18100 | 0.18085 | 1.5e-4 | 0.00100 |
 
 ### V2 — φ = 0: slices against the exact moment solution
@@ -172,15 +172,15 @@ F (ordinary) = (Σc′l + tan 22° ΣN) / ΣT = (226.72 + 0.4040 × 788.73) / 37
 
 ### V6 — ACADS benchmark slopes 1(a), 1(c) and 1(d)
 
-**Source:** Donald & Giam (1989), ACADS slope stability review, problems 1(a), 1(c), 1(d); comparison values from the Rocscience Slide verification manual
+**Source:** Donald & Giam (1989), ACADS slope stability review, problems 1(a), 1(c), 1(d); Bishop comparison values as reproduced in software verification manuals
 
-**Basis:** published. Critical circle by Bishop’s simplified method from a full search (default grid, 40 slices). Two comparisons each. (1) The ACADS referee values 1.00, 1.39 and 1.00, allowed ±0.03: they are rounded and the methods submitted to the review scatter by about that much. (2) The Bishop results of an independent program (Slide: 0.987, 1.405, 1.015), allowed ±0.005, the difference to expect between two search implementations. Honest note on sources: the three-layer geometry, the soil properties and the Bishop value 1.405 for 1(c) were checked against a published verification document that reproduces the ACADS problem (LUSAS, “Non-homogeneous slope”, shifted origin). The referee values, the 1(a) geometry and the Slide values for 1(a) and 1(d) were entered from memory and not re-checked against the original report.
+**Basis:** published. Critical circle by Bishop’s simplified method from a full search (default grid, 40 slices). Two comparisons each. (1) The ACADS referee values 1.00, 1.39 and 1.00, allowed ±0.03: they are rounded and the methods submitted to the review scatter by about that much. (2) Bishop’s simplified method as reported for the same problems (0.987, 1.405, 1.015), allowed ±0.005, the difference to expect between two search implementations. Honest note on sources: the three-layer geometry, the soil properties and the Bishop value 1.405 for 1(c) were checked against a published verification document that reproduces the ACADS problem (LUSAS, “Non-homogeneous slope”, shifted origin). The referee values, the 1(a) geometry and the Bishop values for 1(a) and 1(d) (recalled as those of the Rocscience Slide verification manual) were entered from memory and not re-checked against the original report.
 
 | Quantity | Expected | SlopeForge | Difference | Allowed |
 | --- | ---: | ---: | ---: | ---: |
-| 1(a) homogeneous: F against the referee value | 1.0000 | 0.98518 | 0.01482 | 0.03000 |
-| 1(a) homogeneous: F against Bishop in Slide | 0.98700 | 0.98518 | 0.00182 | 0.00500 |
+| 1(a) homogeneous: F against the referee value | 1.0000 | 0.98511 | 0.01489 | 0.03000 |
+| 1(a) homogeneous: F against the reported Bishop value | 0.98700 | 0.98511 | 0.00189 | 0.00500 |
 | 1(c) three layers: F against the referee value | 1.3900 | 1.4029 | 0.01289 | 0.03000 |
-| 1(c) three layers: F against Bishop in Slide | 1.4050 | 1.4029 | 0.00211 | 0.00500 |
+| 1(c) three layers: F against the reported Bishop value | 1.4050 | 1.4029 | 0.00211 | 0.00500 |
 | 1(d) three layers, kh = 0.15: F against the referee value | 1.0000 | 1.0130 | 0.01297 | 0.03000 |
-| 1(d) three layers, kh = 0.15: F against Bishop in Slide | 1.0150 | 1.0130 | 0.00203 | 0.00500 |
+| 1(d) three layers, kh = 0.15: F against the reported Bishop value | 1.0150 | 1.0130 | 0.00203 | 0.00500 |
