@@ -28,15 +28,30 @@
 - `scripts/e2e.mjs`: 95 Playwright checks, passing against the local build
   (`npm run build && node scripts/e2e.mjs local`; `npm run e2e` runs against the live site).
 
+- `scripts/screenshots.mjs` written and run once: `docs/screenshots/` has hero.gif, 4 page views,
+  4 detail tabs, trial-circle, mobile and pdf PNGs (regenerate after the fixes below).
+
 ## In progress
-- Final docs and screenshots.
+- Final docs. The session that built this hit its usage limit here (2026-11-17).
 
 ## Exact next step
-- Run `npm run e2e` against the live site once the deploy finishes.
-- Write `scripts/screenshots.mjs` (hero GIF + PNGs into `docs/screenshots/`), then README.md,
-  docs/THEORY.md, CONTRIBUTING.md, LINKEDIN_POST.md, CV_BULLETS.md; check issue templates.
-- Then self-review from screenshots (desktop, phone, PDF), fix polish issues.
-- Stretch if usage remains: Janbu simplified, Spencer, non-circular.
+1. Run `npm run e2e` against the live site (only run locally so far: 95/95 with
+   `npm run build && node scripts/e2e.mjs local`). Verify the live page with curl.
+2. Polish found in the screenshot review, not yet fixed:
+   - `src/ui/Section.tsx`: on narrow screens the title block overlaps the scale bar (put the
+     title block on its own row when the plot is under ~470 px wide); default `showMap` to off
+     on phones in `src/ui/App.tsx`.
+   - `src/io/report.ts`: title-block texts "Method of slices, circular surface" and "Critical
+     circle (search minimising …)" are truncated — shorten them; left-align the first two
+     columns of the strata table. Only page 1 of the PDF has been looked at.
+3. Write the docs, none of which exist yet beyond a stub README: README.md (hero GIF,
+   screenshots, features, live link, theory with equations, validation table between
+   `<!-- validation:start/end -->` markers then `npm run validation`, Mermaid architecture,
+   roadmap), docs/THEORY.md, CONTRIBUTING.md, LINKEDIN_POST.md, CV_BULLETS.md (pattern in
+   `../rcforge`). Review `.github/ISSUE_TEMPLATE/*.yml` (copied from RCForge with names
+   replaced; wording still mentions RC design fields). Update HANDOVER.md.
+4. Re-run screenshots, final self-review, mark COMPLETE.
+5. Stretch, not started: Janbu simplified, Spencer, non-circular surfaces.
 
 ## Milestone checklist
 - [x] 1. Engine
